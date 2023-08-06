@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atamsiddhi Gatha Generator. </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 1%;
+        }
+
+        #generateButton {
+            padding: 10px 30px;
+            font-size: 24px;
+            background-color: red;
+            border: none;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 2em;
+        }
+
+        #videoPlayer {
+            display: none;
+            width: 60%; /* or any size you want */
+            height: auto;
+            margin: 20px auto;
+        }
+
+        #answerBox {
+            display: none;
+            margin: 20px auto;
+            width: 300px;
+        }
+
+        #answerInput {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        #submitButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        #feedback {
+            display: none;
+            border: 1px solid #333;
+            padding: 10px;
+            margin-top: 20px;
+            width: fit-content;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Press the red button below to generate a random Atamsiddhi Gatha. Enter the correct gatha number to win a special prize. </h2>
+    <button id="generateButton" onclick="playRandomVideo()">Generate Video</button>
+    <video id="videoPlayer" controls onended="afterVideoEnd()"></video>
+
+    <div id="answerBox">
+        <input type="text" id="answerInput" placeholder="Type your answer here">
+        <br>
+        <button id="submitButton" onclick="checkAnswer()">Submit</button>
+    </div>
+
+    <div id="feedback"></div>
+
+    <script>
+        const videoLinks = [
+            "https://dl.dropboxusercontent.com/scl/fi/zqmfq0pl1ebymyjbeboou/96.mp4?rlkey=fir28noh6ycsvt4ki35pde3a8&dl=0?raw=1"
+            //... add the rest of your video links here
+        ];
+
+        let currentVideoName = "";
+
+        function playRandomVideo() {
+            const videoElement = document.getElementById("videoPlayer");
+            const randomIndex = Math.floor(Math.random() * videoLinks.length);
+            const chosenLink = videoLinks[randomIndex];
+
+            currentVideoName = chosenLink.split("/").slice(-1)[0].split(".")[0];
+            videoElement.src = chosenLink;
+            videoElement.style.display = "block";
+            videoElement.play();
+        }
+
+        function afterVideoEnd() {
+            document.getElementById("answerBox").style.display = "block";
+        }
+
+        function checkAnswer() {
+            const inputVal = document.getElementById("answerInput").value;
+            const feedback = document.getElementById("feedback");
+
+            if (inputVal === currentVideoName) {
+                feedback.innerHTML = "You got it right!";
+            } 
+            else {
+                feedback.innerHTML = "That's incorrect. The correct answer is: " + currentVideoName;
+            }
+            feedback.style.display = "block";
+}
+        
+    </script>
+</body>
+</html>
